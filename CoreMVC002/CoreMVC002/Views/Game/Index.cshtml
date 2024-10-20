@@ -1,0 +1,36 @@
+﻿@model CoreMVC002.Models.XAXBEngine
+@{
+    ViewData["Title"] = "猜數字遊戲";
+}
+
+<h2>猜數字遊戲</h2>
+
+<form asp-action="Guess" method="post">
+    <label for="guess">輸入你的猜測（4位數字）：</label>
+    <input type="text" name="guess" id="guess" required maxlength="4" />
+    <button type="submit">猜!</button>
+</form>
+
+@if (Model != null && Model.GuessHistory.Count > 0)
+
+{
+    <h3>歷史紀錄</h3>
+    <ul>
+        @foreach (var history in Model.GuessHistory)
+
+        {
+            <li>@history</li>
+        }
+    </ul>
+
+    <h4>當前結果: @Model.Result</h4>
+    <h4>猜測次數: @Model.GuessCount</h4> <!-- 添加猜测次数显示 -->
+    @if (ViewBag.GameOver != null && ViewBag.GameOver == true)
+
+    {
+        <h3>恭喜你!猜對了!遊戲結束。</h3>
+        <form asp-action="Restart" method="post">
+            <button type="submit">重新開始</button>
+        </form>
+    }
+}
